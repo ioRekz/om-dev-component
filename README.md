@@ -27,11 +27,7 @@ An Om component that enlive your existing component adding extra features for de
     (atom {:text "Instrument!"
            :list [{:text "Milk"} {:text "Cookies"} {:text "Applesss"}]})
     (.getElementById js/document "app"))
-```
-
-## Current Limitations
-
-- Does not work if your component already use :tx-listen or :instrument 
+``` 
 
 ## License
 
