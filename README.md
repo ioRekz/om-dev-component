@@ -12,6 +12,8 @@ An Om component that enlive your existing component adding extra features for de
 
 ![](http://i60.tinypic.com/14mgu3p.png)
 
+Running example based on Om counters example: [http://iorekz.github.io/](http://iorekz.github.io/)
+
 ## Usage
 
 [![Clojars Project](http://clojars.org/omdev/latest-version.svg)](http://clojars.org/omdev)
