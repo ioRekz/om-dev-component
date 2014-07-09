@@ -1,4 +1,4 @@
-(defproject omdev "0.1.0-SNAPSHOT"
+(defproject omdev "0.1.1-SNAPSHOT"
   :description "Dev component for Om (state history nav)"
   :url "http://example.com/LATER"
   :license {:name "Eclipse Public License"
