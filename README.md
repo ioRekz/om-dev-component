@@ -1,12 +1,16 @@
 # omdev
 
-An Om component to add features during your dev.
+An Om component that enlive your existing component adding extra features for developement.
+[http://jvuillermet.svbtle.com/om-dev-component](http://jvuillermet.svbtle.com/om-dev-component)
 
 - State navigation (undo/redo)
 - State snapshot
 - Go to State input
 - Pretty print (js object & edn) in console
-- hopefully more to come
+- Print State history on javascript error
+- hopefully more to come ...
+
+![](http://i60.tinypic.com/14mgu3p.png)
 
 ## Usage
 
@@ -19,13 +23,13 @@ An Om component to add features during your dev.
             [cljs.reader :as reader]
             [omdev.core :as omdev]))
 
-(omdev/dev-component app-view
+(omdev/dev-component my-component
     (atom {:text "Instrument!"
            :list [{:text "Milk"} {:text "Cookies"} {:text "Applesss"}]})
     (.getElementById js/document "app"))
 ```
 
-## Limitations
+## Current Limitations
 
 - Does not work if your component already use :tx-listen or :instrument 
 
