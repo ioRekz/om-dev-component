@@ -62,18 +62,19 @@
         (om/build dev (second original) (nth original 2))))))
 
 
+(defn power-up [view state opts]
+  (let [history (atom [@state])]
+    (assoc opts :tx-listen (fn [tx-data root-cursor]
+                              ((:tx-listen opts) tx-data root-cursor)
+                              (when-not (= :undo (:tag tx-data))
+                                (swap! history conj (:new-state tx-data))))
+                :instrument (fn [f cursor m]
+                              (if (= f view)
+                                (om/build* dev-init [f cursor (assoc m :opts {:history history})])
+                                (if-let [user-instr (:instrument opts)]
+                                  (user-instr f cursor m)
+                                  ::om/pass))))))
 
-(defn dev-component [view st tgt]
-  (let [history (atom [@st])]
-    (om/root
-      view
-      st
-      {:target tgt
-       :tx-listen (fn [tx-data root-cursor] (do (when-not (= :undo (:tag tx-data))
-          (swap! history conj (:new-state tx-data)))))
-       :instrument
-       (fn [f cursor m]
-         (if (= f view)
-           (om/build* dev-init [f cursor (assoc m :opts {:history history})])
-           ::om/pass))})))
+(defn dev-component [view state opts]
+  (om/root view state (power-up view state opts)))
 
