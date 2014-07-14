@@ -16,17 +16,17 @@
     om/IRenderState
     (render-state [_ state]
         (dom/div #js {:style #js {:position "fixed" :bottom "30px"}}
-             (apply dom/ul #js {:style #js {:list-style-type "none" :padding "5px" :margin "0px"}} 
-                (map-indexed (fn [idx itm] 
-                  (dom/li #js {:onClick #(om/update! app [] itm :undo) 
-                               :style #js {:border-color (if (= itm app) "black" "#ccc") 
-                                           :border "1px solid" :width "30px" 
-                                           :padding "5px" :text-align "center" 
+             (apply dom/ul #js {:style #js {:list-style-type "none" :padding "5px" :margin "0px"}}
+                (map-indexed (fn [idx itm]
+                  (dom/li #js {:onClick #(om/update! app [] itm :undo)
+                               :style #js {:border-color (if (= itm app) "black" "#ccc")
+                                           :border "1px solid" :width "30px"
+                                           :padding "5px" :text-align "center"
                                            :margin-right "4px" :display "inline-block"
                                            :cursor "pointer"
-                                           }} 
+                                           }}
                           (inc idx))) @(:history state)))
-          (dom/button 
+          (dom/button
             #js {:onClick (fn [e]
                             (when (> (count @history) (inc (:idx state)))
                               (om/update! app [] (get (vec (reverse @history)) (inc (:idx state))) :undo)
@@ -49,8 +49,8 @@
   (reify
     om/IWillMount
     (will-mount [_]
-      (let [snap (get-local "snap" nil) 
-            history (get-in (nth original 2) [:opts :history]) 
+      (let [snap (get-local "snap" nil)
+            history (get-in (nth original 2) [:opts :history])
             histo-local (get-local "history" nil)]
         (set! (.-onerror js/window) #(prn (str % " for " %2 " at line " %3 " and history was " @history)))
         (when snap (om/update! (second original) [] snap))
@@ -61,13 +61,14 @@
         (apply om/build* original)
         (om/build dev (second original) (nth original 2))))))
 
+(defn make-history-fn [history]
+  (fn [tx-data root-cursor]
+    (when-not (= :undo (:tag tx-data))
+      (swap! history conj (:new-state tx-data)))))
 
 (defn power-up [view state opts]
   (let [history (atom [@state])]
-    (assoc opts :tx-listen (fn [tx-data root-cursor]
-                              ((:tx-listen opts) tx-data root-cursor)
-                              (when-not (= :undo (:tag tx-data))
-                                (swap! history conj (:new-state tx-data))))
+    (assoc opts :tx-listen (juxt (:tx-listen opts) (make-history-fn history))
                 :instrument (fn [f cursor m]
                               (if (= f view)
                                 (om/build* dev-init [f cursor (assoc m :opts {:history history})])
