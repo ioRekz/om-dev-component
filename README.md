@@ -3,7 +3,7 @@
 An Om component that enlive your existing component adding extra features for developement.
 [http://jvuillermet.svbtle.com/om-dev-component](http://jvuillermet.svbtle.com/om-dev-component)
 
-- State navigation (undo/redo)
+- State history navigation (undo/redo)
 - State snapshot
 - Go to State input
 - Pretty print (js object & edn) in console
