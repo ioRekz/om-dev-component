@@ -1,6 +1,7 @@
 (ns omdev.core
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [ankha.core :as ankha]
             [cljs.reader :as reader]))
 
 (defn get-local [k defo]
@@ -31,19 +32,24 @@
                             (when (> (count @history) (inc (:idx state)))
                               (om/update! app [] (get (vec (reverse @history)) (inc (:idx state))) :undo)
                               (om/update-state! owner :idx inc)))} "Undo")
-           (dom/button #js {:onClick (fn [e]
+            (dom/button #js {:onClick (fn [e]
                                        (.setItem (.-localStorage js/window) "snap" @app)
                                        (.setItem (.-localStorage js/window) "history" @history))} "Snap")
-           (dom/button #js {:onClick (fn [e]
+            (dom/button #js {:onClick (fn [e]
                                        (.removeItem (.-localStorage js/window) "snap" )
                                        (.removeItem (.-localStorage js/window) "history" ))} "UnSnap")
-           (dom/button #js {:onClick (fn [e] (.log js/console (clj->js @app)) (prn @app))} "Pretty print state")
-           (if-not (:area state)
-              (dom/button #js {:onClick (fn [e] (om/set-state! owner :area true))} "Input state")
-              (dom/span nil
-                (dom/textarea #js {:placeholder "Go to state" :ref "area"})
-                (dom/button #js {:onClick (fn [e] (om/update! app [] (reader/read-string (.-value (om/get-node owner "area")))))} "Go")
-                (dom/button #js {:onClick (fn [e] (om/set-state! owner :area false))} "Cancel")))))))
+            (dom/button #js {:onClick (fn [e] (om/update-state! owner :inspect not))}
+              (if-not (:inspect state) "Inspect state" "Hide inspector"))
+            (dom/button #js {:onClick (fn [e] (.log js/console (clj->js @app)) (prn @app))} "Pretty print state")
+              (if-not (:area state)
+                (dom/button #js {:onClick (fn [e] (om/set-state! owner :area true))} "Input state")
+                (dom/span nil
+                  (dom/textarea #js {:placeholder "Go to state" :ref "area"})
+                  (dom/button #js {:onClick (fn [e] (om/update! app [] (reader/read-string (.-value (om/get-node owner "area")))))} "Go")
+                  (dom/button #js {:onClick (fn [e] (om/set-state! owner :area false))} "Cancel")))
+
+            (when (:inspect state) (dom/div #js {:style #js {:position "fixed" :right "30px" :bottom "30px"}}
+              (om/build ankha/inspector app)))))))
 
 (defn dev-init [original owner]
   (reify

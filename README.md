@@ -5,6 +5,7 @@ An Om component that enlive your existing component adding extra features for de
 
 - State history navigation (undo/redo)
 - State snapshot
+- State inspection & edition with [ankha](https://github.com/noprompt/ankha)
 - Go to State input
 - Pretty print (js object & edn) in console
 - Print State history on javascript error
@@ -33,7 +34,7 @@ Just replace om/root with omdev/dev-component
     {:target (.getElementById js/document "app")
      :tx-listen (fn [tx-data root-cursor]
                   (println "listener 1: " tx-data))})
-``` 
+```
 
 ## License
 
