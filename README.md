@@ -5,7 +5,7 @@ An Om component that enlive your existing component adding extra features for de
 
 - State history navigation (undo/redo)
 - State snapshot
-- State inspection & edition with [ankha](https://github.com/noprompt/ankha)
+- State inspection & edition(soon) with [ankha](https://github.com/noprompt/ankha)
 - Go to State input
 - Pretty print (js object & edn) in console
 - Print State history on javascript error
