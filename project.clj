@@ -1,4 +1,4 @@
-(defproject omdev "0.1.2-SNAPSHOT"
+(defproject omdev "0.1.3-SNAPSHOT"
   :description "Dev component for Om (state history nav)"
   :url "http://example.com/LATER"
   :license {:name "Eclipse Public License"
@@ -7,7 +7,7 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-2202"]
                  [om "0.6.2"]
-                 [ankha "0.1.3"]]
+                 [ankha "0.1.4-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.0.3"]]
 
