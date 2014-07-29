@@ -74,7 +74,7 @@
 
 (defn power-up [view state opts]
   (let [history (atom [@state])]
-    (assoc opts :tx-listen (juxt (:tx-listen opts) (make-history-fn history))
+    (assoc opts :tx-listen (juxt (make-history-fn history) (:tx-listen opts))
                 :instrument (fn [f cursor m]
                               (if (= f view)
                                 (om/build* dev-init [f cursor (assoc m :opts {:history history})])
