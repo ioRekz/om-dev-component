@@ -5,13 +5,12 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2202"]
-                 [om "0.6.2"]
+                 [org.clojure/clojurescript "0.0-2227" :scope "prodived"]
+                 [org.clojure/core.async "0.1.267.0-0d7780-alpha" :scope "provided"]
+                 [om "0.7.1" :scope "provided"]
                  [ankha "0.1.4-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.0.3"]]
-
-  :hooks [leiningen.cljsbuild]
 
   :source-paths ["src"]
 
