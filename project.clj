@@ -19,5 +19,12 @@
     :builds [{:compiler {:output-to "target/om-dev.js"
                         :optimizations :none
                         :pretty-print true}
-                        :source-paths ["src"]}]})
+                        :source-paths ["src"]}
+             {:id "counters"
+                           :source-paths ["src" "examples/counters/src"]
+                           :compiler {
+                             :output-to "examples/counters/main.js"
+                             :output-dir "examples/counters/out"
+                             :source-map true
+                             :optimizations :none}}]})
 
