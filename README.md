@@ -25,7 +25,6 @@ Just replace om/root with omdev/dev-component
 (ns goss.core
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [cljs.reader :as reader]
             [omdev.core :as omdev]))
 
 (omdev/dev-component my-component
